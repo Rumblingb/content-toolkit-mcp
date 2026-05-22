@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Toolkit MCP — 11 Text Tools for AI Agents</title>
+<meta name="description" content="Your AI agent's Swiss Army knife for text: diff, stats, case convert, slug, truncate, regex, markdown-to-text, sort, JSON format, URL extract, tables. Freemium: 50 free, $19/mo Pro.">
+<meta name="keywords" content="MCP server, text toolkit, AI agent tools, diff checker, JSON formatter, regex tool, markdown converter, case converter, content tools">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; color: #e4e4e7; line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.hero { text-align: center; padding: 4rem 0 3rem; }
+.hero h1 { font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+.hero p { font-size: 1.2rem; color: #a1a1aa; max-width: 600px; margin: 0 auto 2rem; }
+.badges { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+.badge { padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
+.badge-mcp { background: rgba(99,102,241,0.15); color: #818cf8; }
+.badge-python { background: rgba(34,197,94,0.15); color: #4ade80; }
+.badge-pro { background: rgba(168,85,247,0.15); color: #a855f7; }
+.badge-free { background: rgba(251,191,36,0.15); color: #fbbf24; }
+.cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 0.75rem 2rem; border-radius: 12px; font-weight: 600; font-size: 1rem; text-decoration: none; transition: all 0.2s; }
+.btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99,102,241,0.3); }
+.btn-secondary { background: rgba(255,255,255,0.08); color: #e4e4e7; border: 1px solid rgba(255,255,255,0.12); }
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin: 4rem 0; }
+.tool-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem; transition: all 0.2s; }
+.tool-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(99,102,241,0.3); }
+.tool-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+.tool-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #f4f4f5; }
+.tool-card p { font-size: 0.85rem; color: #a1a1aa; line-height: 1.5; }
+.tool-name { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.75rem; color: #6366f1; margin-bottom: 0.5rem; display: block; }
+.pricing { text-align: center; margin: 4rem 0; }
+.pricing h2 { font-size: 2rem; margin-bottom: 2rem; }
+.pricing-cards { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.price-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem; width: 280px; text-align: left; }
+.price-card.featured { border-color: #6366f1; background: rgba(99,102,241,0.06); }
+.price-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.price { font-size: 2.5rem; font-weight: 800; margin: 0.5rem 0; }
+.price span { font-size: 1rem; font-weight: 400; color: #a1a1aa; }
+.price-card ul { list-style: none; margin: 1.5rem 0; }
+.price-card li { padding: 0.4rem 0; font-size: 0.9rem; color: #a1a1aa; }
+.price-card li::before { content: "✓ "; color: #4ade80; }
+.install { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 2rem; margin: 3rem 0; }
+.install h2 { margin-bottom: 1rem; }
+.install pre { background: rgba(0,0,0,0.4); padding: 1rem 1.5rem; border-radius: 8px; overflow-x: auto; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; }
+.install code { color: #4ade80; }
+footer { text-align: center; padding: 3rem 0; color: #71717a; font-size: 0.85rem; }
+footer a { color: #a1a1aa; text-decoration: none; }
+footer a:hover { color: #fff; }
+@media (max-width: 600px) { .hero h1 { font-size: 1.8rem; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+<h1>🧰 Content Toolkit MCP</h1>
+<p>11 battle-tested text processing tools for AI agents. Diff, stats, case convert, regex, JSON format, and more — all in one MCP server.</p>
+<div class="badges">
+<span class="badge badge-mcp">MCP Server</span>
+<span class="badge badge-python">Python 3.9+</span>
+<span class="badge badge-free">50 Free Calls</span>
+<span class="badge badge-pro">$19/mo Pro</span>
+</div>
+<div class="cta-group">
+<a href="https://github.com/Rumblingb/content-toolkit-mcp" class="btn btn-secondary">GitHub →</a>
+<a href="https://buy.stripe.com/14kg3reZT1Fv9H2288" class="btn btn-primary">Upgrade to Pro — $19/mo</a>
+</div>
+</div>
+
+<div class="tools-grid">
+<div class="tool-card">
+<span class="tool-name">toolkit_diff</span>
+<div class="tool-icon">🔄</div>
+<h3>Text Diff</h3>
+<p>Compare two texts — unified, inline, or side-by-side with change stats.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_stats</span>
+<div class="tool-icon">📊</div>
+<h3>Text Statistics</h3>
+<p>Words, reading time, sentence count, top words, density metrics.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_case_convert</span>
+<div class="tool-icon">🔤</div>
+<h3>Case Converter</h3>
+<p>10 formats: snake_case, camelCase, PascalCase, kebab-case, and more.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_slugify</span>
+<div class="tool-icon">🔗</div>
+<h3>URL Slug</h3>
+<p>Convert any text to clean, SEO-friendly URL slugs.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_truncate</span>
+<div class="tool-icon">✂️</div>
+<h3>Smart Truncate</h3>
+<p>Truncate at word boundaries with configurable ellipsis.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_regex</span>
+<div class="tool-icon">🔍</div>
+<h3>Regex Find/Replace</h3>
+<p>Full regex with flags: case-insensitive, multiline, dotall, verbose.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_markdown_to_text</span>
+<div class="tool-icon">📝</div>
+<h3>Markdown Stripper</h3>
+<p>Remove all markdown formatting to get clean plain text.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_sort_lines</span>
+<div class="tool-icon">📋</div>
+<h3>Line Sorter</h3>
+<p>Sort by alpha, length, numeric, shuffle. Deduplicate lines.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_format_json</span>
+<div class="tool-icon">{ }</div>
+<h3>JSON Formatter</h3>
+<p>Pretty-print, validate, minify, or flatten JSON with error reporting.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_extract_urls</span>
+<div class="tool-icon">🌐</div>
+<h3>URL Extractor</h3>
+<p>Find all URLs in text, parsed with domain, path, and query params.</p>
+</div>
+<div class="tool-card">
+<span class="tool-name">toolkit_format_table</span>
+<div class="tool-icon">📑</div>
+<h3>Table Formatter</h3>
+<p>CSV/TSV → markdown tables, ASCII tables, JSON, or cleaned CSV.</p>
+</div>
+</div>
+
+<div class="pricing">
+<h2>Simple Pricing</h2>
+<div class="pricing-cards">
+<div class="price-card">
+<h3>🆓 Free</h3>
+<div class="price">$0</div>
+<ul>
+<li>50 calls per session</li>
+<li>All 11 tools</li>
+<li>Full JSON responses</li>
+<li>Self-hosted</li>
+</ul>
+</div>
+<div class="price-card featured">
+<h3>⭐ Pro</h3>
+<div class="price">$19<span>/mo</span></div>
+<ul>
+<li>Unlimited calls</li>
+<li>All 11 tools</li>
+<li>Priority GitHub support</li>
+<li>Early access to new tools</li>
+<li>Pro key authentication</li>
+</ul>
+<a href="https://buy.stripe.com/14kg3reZT1Fv9H2288" class="btn btn-primary" style="display:block;text-align:center;margin-top:1rem;">Upgrade →</a>
+</div>
+</div>
+</div>
+
+<div class="install">
+<h2>⚡ Quick Install</h2>
+<pre><code># Smithery (recommended)
+npx smithery install content-toolkit-mcp --client claude
+
+# Manual
+git clone https://github.com/Rumblingb/content-toolkit-mcp.git
+cd content-toolkit-mcp
+pip install -r requirements.txt
+python3 server.py</code></pre>
+</div>
+
+<footer>
+<p>Part of <a href="https://rumblingb.github.io/mcp-directory/">AgentPay Labs</a> — Building the infrastructure for AI agents.</p>
+<p style="margin-top:0.5rem;"><a href="https://github.com/Rumblingb">GitHub</a> · <a href="https://rumblingb.github.io/mcp-directory/">MCP Directory</a> · MIT License</p>
+</footer>
+
+</div>
+  <div class="crosslink-footer">
+    <hr>
+    <p><strong>Part of the <a href="https://github.com/Rumblingb" target="_blank" rel="noopener">Rumblingb MCP Ecosystem</a></strong> &mdash; 67+ open-source MCP servers for AI agents</p>
+    <p class="crosslink-links"><a href="https://rumblingb.github.io/agent-cost-tracker-mcp/">Agent Cost Tracker</a> | <a href="https://rumblingb.github.io/agent-legal-counsel-mcp/">Agent Legal Counsel</a> | <a href="https://rumblingb.github.io/agent-memory-mcp/">Agent Memory</a> | <a href="https://rumblingb.github.io/agentpassport-api/">AgentPassport API</a> | <a href="https://rumblingb.github.io/agentpay-labs-hub/">AgentPay Labs Hub</a> | <a href="https://rumblingb.github.io/agentpay-sentinel-mcp/">AgentPay Sentinel</a> | <a href="https://rumblingb.github.io/company-intel-mcp/">Company Intel</a> | <a href="https://rumblingb.github.io/content-moderation-mcp/">Content Moderation</a> | <a href="https://rumblingb.github.io/court-records-mcp/">Court Records</a> | <a href="https://rumblingb.github.io/currency-exchange-mcp/">Currency Exchange</a> | <a href="https://rumblingb.github.io/email-finder-mcp/">Email Finder</a> | <a href="https://rumblingb.github.io/mcp-bridge-extension/">MCP Bridge</a> | <a href="https://rumblingb.github.io/mcp-config-generator/">MCP Config Generator</a> | <a href="https://rumblingb.github.io/mcp-health-monitor/">MCP Health Monitor</a> | <a href="https://rumblingb.github.io/patent-search-mcp/">Patent Search</a> | <a href="https://rumblingb.github.io/rental-agent-mcp/">Rental Agent</a> | <a href="https://rumblingb.github.io/screenshot-api/">Screenshot API</a> | <a href="https://rumblingb.github.io/sec-financial-mcp/">SEC Financial</a> | <a href="https://rumblingb.github.io/wikipedia-mcp/">Wikipedia</a></p>
+  </div>
+</body>
+</html>

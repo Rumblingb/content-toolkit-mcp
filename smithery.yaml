@@ -1,0 +1,14 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      proKey:
+        type: string
+        description: "Pro key for unlimited access. Buy: https://buy.stripe.com/14kg3reZT1Fv9H2288"
+  commandFunction: |
+    (config) => {
+      const args = ['server.py'];
+      if (config.proKey) args.push('--pro-key', config.proKey);
+      return {command: 'python3', args: args};
+    }
